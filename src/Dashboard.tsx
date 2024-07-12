@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import {
     Accordion,
@@ -81,14 +82,14 @@ const WorkOrderCreation = () => {
         setCheckedItems(newCheckedItems)
     }
 
-    const handleMainCheck = () => {
+    const handleMainCheck = (isChecked: boolean) => {
         const newCheckedItems = [...checkedItems]
         newCheckedItems.forEach((pkg) => {
-            pkg.checked = !pkg.checked
+            pkg.checked = isChecked
             pkg.activities.forEach((activity) => {
-                activity.checked = !activity.checked
+                activity.checked = isChecked
                 activity.workItems.forEach((_, index) => {
-                    activity.workItems[index] = !activity.workItems[index]
+                    activity.workItems[index] = isChecked
                 })
             })
         })
@@ -115,8 +116,10 @@ const WorkOrderCreation = () => {
                                 <Accordion colorScheme="teal" allowMultiple>
                                     <GridRow>
                                         <Checkbox
-                                            onChange={() => {
-                                                handleMainCheck()
+                                            onChange={(ev) => {
+                                                handleMainCheck(
+                                                    (ev.target as any).checked
+                                                )
                                             }}
                                         />
                                         <GridHeader>Packages</GridHeader>
