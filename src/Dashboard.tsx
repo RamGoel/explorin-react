@@ -53,6 +53,10 @@ const WorkOrderCreation = () => {
                 activity.workItems[index] = isChecked
             })
         })
+
+        // Update the main check
+        updateMainCheck(newCheckedItems)
+
         setCheckedItems(newCheckedItems)
     }
 
@@ -68,6 +72,13 @@ const WorkOrderCreation = () => {
                 ] = isChecked
             }
         )
+
+        // Update the package check
+        updatePackageCheck(newCheckedItems, pkgIndex)
+
+        // Update the main check
+        updateMainCheck(newCheckedItems)
+
         setCheckedItems(newCheckedItems)
     }
 
@@ -77,8 +88,20 @@ const WorkOrderCreation = () => {
         itemIndex: number
     ) => {
         const newCheckedItems = [...checkedItems]
-        newCheckedItems[pkgIndex].activities[actIndex].workItems[itemIndex] =
+        const isChecked =
             !newCheckedItems[pkgIndex].activities[actIndex].workItems[itemIndex]
+        newCheckedItems[pkgIndex].activities[actIndex].workItems[itemIndex] =
+            isChecked
+
+        // Update the activity check
+        updateActivityCheck(newCheckedItems, pkgIndex, actIndex)
+
+        // Update the package check
+        updatePackageCheck(newCheckedItems, pkgIndex)
+
+        // Update the main check
+        updateMainCheck(newCheckedItems)
+
         setCheckedItems(newCheckedItems)
     }
 
@@ -94,6 +117,28 @@ const WorkOrderCreation = () => {
             })
         })
         setCheckedItems(newCheckedItems)
+    }
+
+    // Helper functions to update parent checks
+
+    const updateMainCheck = (newCheckedItems) => {
+        const allChecked = newCheckedItems.every((pkg) => pkg.checked)
+        setCheckedItems(allChecked) // Assuming you have a state setter for main check
+    }
+
+    const updatePackageCheck = (newCheckedItems, pkgIndex) => {
+        const allActivitiesChecked = newCheckedItems[pkgIndex].activities.every(
+            (activity) => activity.checked
+        )
+        newCheckedItems[pkgIndex].checked = allActivitiesChecked
+    }
+
+    const updateActivityCheck = (newCheckedItems, pkgIndex, actIndex) => {
+        const allWorkItemsChecked = newCheckedItems[pkgIndex].activities[
+            actIndex
+        ].workItems.every((workItem) => workItem)
+        newCheckedItems[pkgIndex].activities[actIndex].checked =
+            allWorkItemsChecked
     }
 
     return (
@@ -116,6 +161,9 @@ const WorkOrderCreation = () => {
                                 <Accordion colorScheme="teal" allowMultiple>
                                     <GridRow>
                                         <Checkbox
+                                            isChecked={checkedItems.every(
+                                                (pkg) => pkg.checked
+                                            )}
                                             onChange={(ev) => {
                                                 handleMainCheck(
                                                     (ev.target as any).checked
