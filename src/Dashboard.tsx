@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { GridHeader, GridItem, GridRow } from './components/GridComponents'
+import Section from './components/Section'
 import { packages } from './data/data'
 
 const WorkOrderCreation = () => {
@@ -237,65 +238,23 @@ const WorkOrderCreation = () => {
                                                                     </GridItem>
                                                                 </GridRow>
                                                                 <AccordionPanel>
-                                                                    {activity.workItems.map(
-                                                                        (
-                                                                            item,
-                                                                            itemIndex
-                                                                        ) => (
-                                                                            <GridRow
-                                                                                key={
-                                                                                    itemIndex
-                                                                                }
-                                                                            >
-                                                                                <Checkbox
-                                                                                    isChecked={
-                                                                                        checkedItems[
-                                                                                            pkgIndex
-                                                                                        ]
-                                                                                            .activities[
-                                                                                            actIndex
-                                                                                        ]
-                                                                                            .workItems[
-                                                                                            itemIndex
-                                                                                        ]
-                                                                                    }
-                                                                                    onChange={() =>
-                                                                                        handleWorkItemCheck(
-                                                                                            pkgIndex,
-                                                                                            actIndex,
-                                                                                            itemIndex
-                                                                                        )
-                                                                                    }
-                                                                                />
-                                                                                <GridItem>
-                                                                                    {
-                                                                                        item.name
-                                                                                    }
-                                                                                </GridItem>
-                                                                                <GridItem
-                                                                                    hideOnSmallScreen={
-                                                                                        true
-                                                                                    }
-                                                                                >
-                                                                                    {
-                                                                                        item.rate
-                                                                                    }
-                                                                                </GridItem>
-                                                                                <GridItem
-                                                                                    hideOnSmallScreen={
-                                                                                        true
-                                                                                    }
-                                                                                >
-                                                                                    {
-                                                                                        item.total
-                                                                                    }
-                                                                                </GridItem>
-                                                                                <GridItem>
-                                                                                    {' '}
-                                                                                </GridItem>
-                                                                            </GridRow>
-                                                                        )
-                                                                    )}
+                                                                    <Section
+                                                                        data={
+                                                                            activity.workItems
+                                                                        }
+                                                                        checkedItems={
+                                                                            checkedItems
+                                                                        }
+                                                                        actIndex={
+                                                                            actIndex
+                                                                        }
+                                                                        pkgIndex={
+                                                                            pkgIndex
+                                                                        }
+                                                                        handleWorkItemCheck={
+                                                                            handleWorkItemCheck
+                                                                        }
+                                                                    />
                                                                 </AccordionPanel>
                                                             </AccordionItem>
                                                         )
