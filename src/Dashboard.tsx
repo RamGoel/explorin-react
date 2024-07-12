@@ -55,7 +55,6 @@ const WorkOrderCreation = () => {
         })
 
         // Update the main check
-        updateMainCheck(newCheckedItems)
 
         setCheckedItems(newCheckedItems)
     }
@@ -77,7 +76,6 @@ const WorkOrderCreation = () => {
         updatePackageCheck(newCheckedItems, pkgIndex)
 
         // Update the main check
-        updateMainCheck(newCheckedItems)
 
         setCheckedItems(newCheckedItems)
     }
@@ -100,7 +98,6 @@ const WorkOrderCreation = () => {
         updatePackageCheck(newCheckedItems, pkgIndex)
 
         // Update the main check
-        updateMainCheck(newCheckedItems)
 
         setCheckedItems(newCheckedItems)
     }
@@ -121,19 +118,21 @@ const WorkOrderCreation = () => {
 
     // Helper functions to update parent checks
 
-    const updateMainCheck = (newCheckedItems) => {
-        const allChecked = newCheckedItems.every((pkg) => pkg.checked)
-        setCheckedItems(allChecked) // Assuming you have a state setter for main check
-    }
-
-    const updatePackageCheck = (newCheckedItems, pkgIndex) => {
+    const updatePackageCheck = (
+        newCheckedItems: typeof checkedItems,
+        pkgIndex: number
+    ): void => {
         const allActivitiesChecked = newCheckedItems[pkgIndex].activities.every(
             (activity) => activity.checked
         )
         newCheckedItems[pkgIndex].checked = allActivitiesChecked
     }
 
-    const updateActivityCheck = (newCheckedItems, pkgIndex, actIndex) => {
+    const updateActivityCheck = (
+        newCheckedItems: typeof checkedItems,
+        pkgIndex: number,
+        actIndex: number
+    ): void => {
         const allWorkItemsChecked = newCheckedItems[pkgIndex].activities[
             actIndex
         ].workItems.every((workItem) => workItem)
